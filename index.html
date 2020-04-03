@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <title>ContaJS 2.0</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/plotly.js" charset="utf-8"></script>
+    <script src="js/Vector.js" charset="utf-8"></script>
+    <script src="js/Population.js" charset="utf-8"></script>
+    <script src="js/Human.js" charset="utf-8"></script>
+    <script defer src="js/index.js" charset="utf-8"></script>
+  </head>
+  <body>
+
+    <div class="page">
+      <div class="canvasses">
+        <canvas class="ctx" width="400" height="400"></canvas>
+        <canvas class="ctx" width="400" height="400"></canvas>
+        <canvas class="ctx" width="400" height="400"></canvas>
+        <canvas class="ctx" width="400" height="400"></canvas>
+        <canvas class="ctx" width="400" height="400"></canvas>
+        <canvas class="ctx" width="400" height="400"></canvas>
+        <canvas class="ctx" width="400" height="400"></canvas>
+        <canvas class="ctx" width="400" height="400"></canvas>
+        <canvas class="ctx" width="400" height="400"></canvas>
+        <canvas class="ctx" width="400" height="400"></canvas>
+        <canvas class="ctx" width="400" height="400"></canvas>
+        <canvas class="ctx" width="400" height="400"></canvas>
+        <canvas class="ctx" width="400" height="400"></canvas>
+        <canvas class="ctx" width="400" height="400"></canvas>
+        <div>
+          <canvas class="isolation" width="300" height="300"></canvas>
+          <p>Isolation</p>
+        </div>
+        <div>
+          <canvas class="shop" width="300" height="300"></canvas>
+          <p>Shop</p>
+        </div>
+      </div>
+      <div>
+        <div id="graph"></div>
+        <div class="split">
+          <div id="console"></div>
+          <div id="controls">
+            <div class="control">
+              <div class="">
+                <button onclick="startRendering()">Start</button>
+                <button onclick="pause()">Pause</button>
+                <button onclick="reset()">Reset</button>
+              </div>
+            </div>
+            <div class="control">
+              <p>Population Size
+                <span class="info">
+                  <span class="text">
+                    Set the number of Humans that will be rendered.
+                  </span>
+                </span>
+              </p>
+              <div>
+                <input type="number" value="1500" step="1">
+                <button onclick="changePopulationSize(this.parentElement.querySelector('input'))">Submit</button>
+              </div>
+            </div>
+            <div class="control">
+              <p>Number Of Communities
+                <span class="info">
+                  <span class="text">
+                    Set the number of Communities (big squares). The Population will be evenly distributed over the Communities.
+                  </span>
+                </span>
+              </p>
+              <div>
+                <input type="number" value="14" step="1">
+                <button onclick="changeNumberOfCommunities(this.parentElement.querySelector('input'))">Submit</button>
+              </div>
+            </div>
+            <div class="control">
+              <p>Spread Range
+                <span class="info">
+                  <span class="text">
+                    Infected Humans can spread the disease to other Humans within this range in pixels.
+                  </span>
+                </span>
+              </p>
+              <div>
+                <input type="number" value="20" step="1">
+                <button onclick="changeSpreadRange(this.parentElement.querySelector('input'))">Submit</button>
+              </div>
+            </div>
+            <div class="control">
+              <p>Spread Probability
+                <span class="info">
+                  <span class="text">
+                    Each tick (time unit), an infected Human will have this probability to infect another Human within the Spread Range.
+                  </span>
+                </span>
+              </p>
+              <div>
+                <input type="number" value="0.05" step="0.01">
+                <button onclick="changeSpreadProbability(this.parentElement.querySelector('input'))">Submit</button>
+              </div>
+            </div>
+            <div class="control">
+              <p>Social Distancing
+                <br>Range
+                <span class="info">
+                  <span class="text">
+                    All Humans who do Social Distancing will try to keep this many pixels away from each other.
+                  </span>
+                </span>
+              </p>
+              <div>
+                <input type="number" value="30" step="1">
+                <button onclick="changeSocialDistancingRange(this.parentElement.querySelector('input'))">Submit</button>
+              </div>
+            </div>
+            <div class="control">
+              <p>Social Distancing Ratio
+                <span class="info">
+                  <span class="text">
+                    This ratio of the Population will do Social Distancing.
+                  </span>
+                </span>
+              </p>
+              <div>
+                <input type="number" value="1" step="0.1">
+                <button onclick="changeSocialDistancingRatio(this.parentElement.querySelector('input'))">Submit</button>
+              </div>
+            </div>
+            <div class="control">
+              <p>Travel Probability
+                <span class="info">
+                  <span class="text">
+                    Each tick (time unit), each Human will have this probability to travel to another Community.
+                  </span>
+                </span>
+              </p>
+              <div>
+                <input type="number" value="0.001" step="0.001">
+                <button onclick="changeTravelProbability(this.parentElement.querySelector('input'))">Submit</button>
+              </div>
+            </div>
+            <div class="control">
+              <p>Shop Probability
+                <span class="info">
+                  <span class="text">
+                    Each tick (time unit), each Human will have this probability to visit the Shop.
+                  </span>
+                </span>
+              </p>
+              <div>
+                <input type="number" value="0.01" step="0.001">
+                <button onclick="changeShopProbability(this.parentElement.querySelector('input'))">Submit</button>
+              </div>
+            </div>
+            <div class="control">
+              <div>
+                <p>Isolation Probability
+                  <span class="info">
+                    <span class="text">
+                      When Isolation is turned on, each newly infected Human will have this probability to go to isolation.
+                    </span>
+                  </span>
+                </p>
+                <input type="number" value="0.5" step="0.1">
+                <button onclick="changeIsolationProbability(this.parentElement.querySelector('input'))">Submit</button>
+              </div>
+            </div>
+            <div class="control">
+              <p>Measures</p>
+              <div>
+                <label class="checkbox">
+                  <input id="enable-isolation" onchange="enableIsolation(this.checked)" type="checkbox">
+                  <div class="box"></div>
+                  <span>Isolation</span>
+                </label>
+                <label class="checkbox">
+                  <input id="enable-social-distancing" onchange="enableSocialDistancing(this.checked)" type="checkbox">
+                  <div class="box"></div>
+                  <span>Social Distancing</span>
+                </label>
+                <label class="checkbox">
+                  <input id="enable-lockdown" onchange="enableLockdown(this.checked)" type="checkbox">
+                  <div class="box"></div>
+                  <span>Total Lockdown</span>
+                </label>
+                <label class="checkbox">
+                  <input id="close-shop" onchange="closeShop(this.checked)" type="checkbox">
+                  <div class="box"></div>
+                  <span>Shop Closed</span>
+                </label>
+              </div>
+            </div>
+            <div class="control">
+              <p>Isolation Activation Threshold Ratio
+                <span class="info">
+                  <span class="text">
+                    Isolation will automatically be turned on after the number of cumulative infections hits this ratio of the Population.
+                  </span>
+                </span>
+              </p>
+              <div>
+                <input type="number" value="0.05" step="0.01">
+                <button onclick="changeIsolationThresholdRatio(this.parentElement.querySelector('input'))">Submit</button>
+              </div>
+            </div>
+            <div class="control">
+              <p>Social Distancing Activation Threshold Ratio
+                <span class="info">
+                  <span class="text">
+                    Social Distancing will automatically be turned on after the number of cumulative infections hits this ratio of the Population.
+                  </span>
+                </span>
+              </p>
+              <div>
+                <input type="number" value="0.1" step="0.01">
+                <button onclick="changeSocialDistancingThresholdRatio(this.parentElement.querySelector('input'))">Submit</button>
+              </div>
+            </div>
+            <div class="control">
+              <p>Total Lockdown Activation Threshold Ratio
+                <span class="info">
+                  <span class="text">
+                    Total Lockdown will automatically be turned on after the number of cumulative infections hits this ratio of the Population.
+                  </span>
+                </span>
+              </p>
+              <div>
+                <input type="number" value="0.15" step="0.01">
+                <button onclick="changeLockdownThresholdRatio(this.parentElement.querySelector('input'))">Submit</button>
+              </div>
+            </div>
+            <div class="control">
+              <p>Shop Closure Activation Threshold Ratio
+                <span class="info">
+                  <span class="text">
+                    The Shop will automatically close after the number of cumulative infections hits this ratio of the Population.
+                  </span>
+                </span>
+              </p>
+              <div>
+                <input type="number" value="0.3" step="0.01">
+                <button onclick="changeShopCloseThresholdRatio(this.parentElement.querySelector('input'))">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

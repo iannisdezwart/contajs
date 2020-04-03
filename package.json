@@ -1,0 +1,16 @@
+{
+  "name": "ContaJS",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Iannis de Zwart",
+  "license": "ISC",
+  "dependencies": {
+    "@types/plotly.js": "^1.50.0",
+    "npm": "^6.14.4"
+  }
+}
